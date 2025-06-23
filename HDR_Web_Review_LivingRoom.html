@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Living Room HDR Lighting Simulator</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          max-width: 100vw;
+          margin: 0 auto;
+          background-color: #000;
+          color: white;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative; /* Enables positioning of buttons */
+        }
+
+        /* Buttons container positioned at top-left */
+        .buttons-container {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); /* Two columns of equal width */
+          gap: 10px; /* Space between buttons */
+          width: 15vw; /* Fixed width for better alignment */
+        }
+
+        /* Buttons styling */
+        .control-button {
+          flex: 1; /* Ensures equal width distribution */
+          height: 25px; /* Lower height for a sleek design */
+          font-size: 12px;
+          border-radius: 5px;
+          border: none;
+          padding: 5px;
+          cursor: pointer;
+          background-color: #585858;
+          color: white;
+          text-align: center;
+        }
+
+        .control-button:hover {
+          background-color: #007bff; /* Highlight effect on hover */
+        }
+
+        /* Canvas styling */
+        #CanvasGL {
+          max-width: 80vw; /* Makes canvas responsive */
+          border: 1px solid #ddd;
+          background-color: black;
+          margin-top: 5px; /* Prevent overlap with buttons */
+        }
+
+        /* Sliders and their container */
+        .controls-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 20px;
+          width: 90%;
+        }
+
+        .control-group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 150px;
+        }
+
+        .brightness-slider {
+          height: 8px;
+          margin: 5px;
+          background: #585858;
+          border-radius: 5px;
+          outline: none;
+        }
+
+        .brightness-slider::-webkit-slider-thumb {
+          width: 15px;
+          height: 15px;
+          background: #5c5c5c;
+          border-radius: 50%;
+          cursor: pointer;
+          border: 2px solid #fff;
+        }
+
+        .slider-value {
+          margin-top: 5px;
+          font-size: 0.9em;
+        }
+        #loadingMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ccc;
+            font-size: 1.2em;
+            z-index: 1; /* Above canvas but below controls */
+        }
+        .bottom-note {
+          font-size: 16px;
+          margin-top: 20px;
+          text-align: center;
+          color: #585858;
+        }
+
+    </style>
+</head>
+<body>
+  
+    <div class="container">
+        <!-- Headroom Info -->
+        <div style="position: fixed; bottom: 20px; left: 20px; background-color: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; z-index: 100;">
+            <span id="hdrHeadroomInfo" style="margin-left: 10px; font-size: 12px; color: #ccc;"></span>
+        </div>
+        <!-- Canvas is no longer used for display -->
+        
+        <canvas id="CanvasGL"></canvas>
+        <div class="controls-container">
+
+          <div class="buttons-container">
+            <button class="control-button" id="coolWarmBtn">Cool Warm</button>
+            <button class="control-button" id="warmBtn">Warm White</button>
+            <button class="control-button" id="coolWhiteBtn">Cool White</button>
+            <button class="control-button" id="daylightBtn">Daylight</button>
+          </div>
+
+            <div class="control-group">
+                <label for="slider-0">Hue Play</label>
+                <input type="range" id="slider-0" class="brightness-slider" min="0" max="1" step="0.01" value="1">
+                <div id="slider-value-0" class="slider-value">Brightness: 1.00</div>
+            </div>
+            
+            <div class="control-group">
+                <label for="slider-1">Ikea Lantern</label>
+                <input type="range" id="slider-1" class="brightness-slider" min="0" max="1" step="0.01" value="1">
+                <div id="slider-value-1" class="slider-value">Brightness: 1.00</div>
+            </div>
+            
+            <div class="control-group">
+                <label for="slider-2">Ikea Grono</label>
+                <input type="range" id="slider-2" class="brightness-slider" min="0" max="1" step="0.01" value="1">
+                <div id="slider-value-2" class="slider-value">Brightness: 1.00</div>
+            </div>
+            
+            <div class="control-group">
+                <label for="slider-3">Ceiling</label>
+                <input type="range" id="slider-3" class="brightness-slider" min="0" max="1" step="0.01" value="1">
+                <div id="slider-value-3" class="slider-value">Brightness: 1.00</div>
+            </div>
+            
+            <div class="control-group">
+                <label for="slider-4">Daylight</label>
+                <input type="range" id="slider-4" class="brightness-slider" min="0" max="1" step="0.01" value="1">
+                <div id="slider-value-4" class="slider-value">Brightness: 1.00</div>
+            </div>
+            
+        </div>
+        <p class="bottom-note">
+            In chrome://flags, enable the following: Experimental Web Platform features, Out-of-process 2D canvas rasterization
+          </p>
+
+    </div>
+
+    <script>
+       // Functions to set predefined scenes
+      let currentImageSet = {
+        huePlay: "LivingRoomScene/Hue_Play_3500.avif",
+        ikeaLantern: "LivingRoomScene/Ikea_Lantern_3500.avif",
+        ikeaGrono: "LivingRoomScene/Ikea_Grono_3500.avif",
+        ceiling: "LivingRoomScene/Ceiling_Light_3500.avif",
+        daylight: "LivingRoomScene/Daylight1.avif"
+      };
+      
+      function setCoolWarm(event) {
+        // Prevent default behavior to maintain scroll position
+        if (event) event.preventDefault();
+        
+        currentImageSet.huePlay = "LivingRoomScene/Ikea_Play_blue.avif";
+        currentImageSet.ikeaLantern = "LivingRoomScene/Ikea_Lantern_2200.avif";
+        currentImageSet.ikeaGrono = "LivingRoomScene/Ikea_Grono_2200.avif";
+        loadImages();
+        setSliderValues([1, 1, 1, 0, 0]);
+      }
+      
+      function setWarm(event) {
+        // Prevent default behavior to maintain scroll position
+        if (event) event.preventDefault();
+        
+        currentImageSet.huePlay = "LivingRoomScene/Hue_Play_2200.AVIF";
+        currentImageSet.ikeaLantern = "LivingRoomScene/Ikea_Lantern_2200.avif";
+        currentImageSet.ikeaGrono = "LivingRoomScene/Ikea_Grono_2200.avif";
+        loadImages();
+        setSliderValues([1, 1, 1, 0, 0]);
+      }
+      
+      function setCoolWhite(event) {
+        // Prevent default behavior to maintain scroll position
+        if (event) event.preventDefault();
+        
+        currentImageSet.huePlay = "LivingRoomScene/Hue_Play_3500.avif";
+        currentImageSet.ikeaLantern = "LivingRoomScene/Ikea_Lantern_3500.avif";
+        currentImageSet.ikeaGrono = "LivingRoomScene/Ikea_Grono_3500.avif";
+        loadImages();
+        setSliderValues([1, 1, 1, 0, 0]);
+      }
+      
+      function setDaylight(event) {
+        // Prevent default behavior to maintain scroll position
+        if (event) event.preventDefault();
+        
+        currentImageSet.huePlay = "LivingRoomScene/Hue_Play_2200.AVIF";
+        currentImageSet.ikeaLantern = "LivingRoomScene/Ikea_Lantern_2200.avif";
+        currentImageSet.ikeaGrono = "LivingRoomScene/Ikea_Grono_2200.avif";
+        loadImages();
+        setSliderValues([0, 0, 0, 0, 1]);
+      }
+      
+      // Function to set predefined values for sliders
+      function setSliderValues(values) {
+        // Array of slider elements
+        const sliders = Array.from(document.querySelectorAll(".brightness-slider"));
+
+        // Loop through each slider and set its value
+        sliders.forEach((slider, index) => {
+          if (index < values.length) {
+            slider.value = values[index];
+            slider.dispatchEvent(new Event("input"));
+          }
+        });
+      }
+
+    let currentImages = [];
+    let isHDRSupported = false; // Still useful for headroom display context
+    let cssBlendContainer = null;
+
+    // Function to update HDR support status and display headroom
+    async function updateHDRStatusAndHeadroom() {
+      const headroomInfoEl = document.getElementById('hdrHeadroomInfo');
+      let headroomValueText = 'Headroom: N/A'; // Default text
+
+      // Initial check using media query
+      let mediaQueryHDRSupport = (window.matchMedia && window.matchMedia('(dynamic-range: high)').matches);
+
+      if ('getScreenDetails' in window) {
+        try {
+          const screens = await window.getScreenDetails();
+          const currentScreen = screens.currentScreen;
+          if (currentScreen && typeof currentScreen.highDynamicRangeHeadroom !== 'undefined') {
+            const headroom = currentScreen.highDynamicRangeHeadroom;
+            headroomValueText = `Headroom: ${headroom.toFixed(2)}`;
+            // Prioritize getScreenDetails if headroom > 1, otherwise rely on media query
+            if (headroom > 1.0) {
+              isHDRSupported = true;
+              console.log("HDR supported: getScreenDetails headroom > 1");
+            } else {
+              isHDRSupported = mediaQueryHDRSupport;
+              if (mediaQueryHDRSupport) {
+                console.log("HDR supported: dynamic-range high detected (headroom <= 1)");
+              } else {
+                console.log("HDR not supported: dynamic-range high not detected (headroom <= 1)");
+              }
+            }
+          } else { // getScreenDetails available but no headroom info
+            isHDRSupported = mediaQueryHDRSupport;
+            if (mediaQueryHDRSupport) console.log("HDR supported: dynamic-range high detected (no headroom data)");
+            else console.log("HDR not supported: dynamic-range high not detected (no headroom data)");
+          }
+        } catch (error) {
+          console.error('Error getting screen details:', error);
+          headroomValueText = 'Headroom: Error';
+          isHDRSupported = mediaQueryHDRSupport; // Fallback to media query on error
+          if (mediaQueryHDRSupport) console.log("HDR supported: dynamic-range high detected (getScreenDetails error)");
+          else console.log("HDR not supported: dynamic-range high not detected (getScreenDetails error)");
+        }
+      } else { // getScreenDetails not available
+        headroomValueText = 'Headroom: API N/A';
+        isHDRSupported = mediaQueryHDRSupport;
+        if (mediaQueryHDRSupport) console.log("HDR supported: dynamic-range high detected (getScreenDetails N/A)");
+        else console.log("HDR not supported: dynamic-range high not detected (getScreenDetails N/A)");
+      }
+
+      if (headroomInfoEl) {
+        headroomInfoEl.textContent = headroomValueText;
+      }
+    }
+
+    // Function to create CSS blend fallback
+    function createCSSBlend(images) {
+      // Remove existing blend container if it exists
+      if (cssBlendContainer) {
+        cssBlendContainer.remove();
+      }
+      
+      // Get canvas dimensions for reference
+      const canvas = document.getElementById('CanvasGL');
+      // const canvasWidth = canvas.offsetWidth || images[0].naturalWidth; // Not strictly needed if canvas is hidden
+      // const aspectRatio = images[0].naturalHeight / images[0].naturalWidth; // aspectRatio is set directly
+      
+      // Create container for CSS blending
+      cssBlendContainer = document.createElement('div');
+      cssBlendContainer.style.position = 'relative';
+      cssBlendContainer.style.width = '100%';
+      cssBlendContainer.style.maxWidth = '80vw';
+      cssBlendContainer.style.aspectRatio = `${images[0].naturalWidth} / ${images[0].naturalHeight}`;
+      cssBlendContainer.style.overflow = 'hidden';
+      
+      // Add each image as a layer
+      images.forEach((image, index) => {
+        const imgElement = document.createElement('img');
+        imgElement.src = image.src;
+        imgElement.style.position = 'absolute';
+        imgElement.style.top = '0';
+        imgElement.style.left = '0';
+        imgElement.style.width = '100%';
+        imgElement.style.height = '100%';
+        imgElement.style.objectFit = 'contain'; // Maintain aspect ratio
+        imgElement.style.mixBlendMode = 'screen'; // Use screen blend mode for light addition
+        imgElement.style.opacity = document.getElementById(`slider-${index}`).value;
+        imgElement.dataset.index = index;
+        
+        cssBlendContainer.appendChild(imgElement);
+      });
+      
+      // Replace canvas with CSS blend container
+      canvas.style.display = 'none';
+      canvas.parentNode.insertBefore(cssBlendContainer, canvas);
+      
+      // Update CSS blend when sliders change
+      const sliders = Array.from(document.querySelectorAll('.brightness-slider'));
+      sliders.forEach((slider, index) => {
+        slider.addEventListener('input', () => {
+          const imgElement = cssBlendContainer.querySelector(`img[data-index="${index}"]`);
+          if (imgElement) {
+            imgElement.style.opacity = slider.value;
+          }
+        });
+      });
+    }
+    
+    function loadImages() {
+      const imagePaths = [
+        currentImageSet.huePlay,
+        currentImageSet.ikeaLantern,
+        currentImageSet.ikeaGrono,
+        currentImageSet.ceiling,
+        currentImageSet.daylight
+      ];
+
+      const images = imagePaths.map((path) => {
+        const img = new Image();
+        img.src = path;
+        return img;
+      });
+
+      let loadedCount = 0;
+      images.forEach((image) => {
+        image.onload = () => {
+          loadedCount++;
+          if (loadedCount === images.length) {
+            const canvas = document.getElementById("CanvasGL");
+            canvas.width = images[0].naturalWidth;
+            canvas.height = images[0].naturalHeight;
+            
+            currentImages = images;
+            // Always use CSS blending
+            createCSSBlend(images);
+          }
+        };
+      });
+    }
+    
+    window.onload = async function () {
+      // Update HDR status and display headroom (isHDRSupported is set here)
+      await updateHDRStatusAndHeadroom();
+      
+      // Add event listeners for scene buttons
+      document.getElementById('coolWarmBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        setCoolWarm(e);
+        return false;
+      });
+      
+      document.getElementById('warmBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        setWarm(e);
+        return false;
+      });
+      
+      document.getElementById('coolWhiteBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        setCoolWhite(e);
+        return false;
+      });
+      
+      document.getElementById('daylightBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        setDaylight(e);
+        return false;
+      });
+      
+      // Set initial scene
+      setCoolWarm();
+    }
+    </script>
+</body>
+</html>

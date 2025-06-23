@@ -1,0 +1,245 @@
+{
+ "name": "LightLibrary",
+ "lightGroups": [
+  {
+   "id": "2fef2f12-e197-4148-b87d-df5272da90c6",
+   "name": "Ikea Lantern",
+   "lights": [
+    {
+     "primPath": "/IkeaLamp/SphereLight_Outside",
+     "translate": [
+      -1.723671312210634,
+      -1.253228384936523,
+      15.874885682801935
+     ],
+     "rotateXYZ": [
+      90.0,
+      0.0,
+      90.0
+     ],
+     "scale": [
+      0.6,
+      0.75,
+      0.6
+     ],
+     "lightType": "SphereLight",
+     "transform": ""
+    }
+   ],
+   "CCT": 2200,
+   "ies": "",
+   "useIES": true,
+   "intensity": 200.0,
+   "dimming": 0.5,
+   "color": [
+    0.5,
+    0.745,
+    1.0
+   ],
+   "useColorTemperature": true
+  },
+  {
+   "id": "bef6cd79-b9f3-4eda-b995-59c3e364bccf",
+   "name": "Ikea Grono",
+   "lights": [
+    {
+     "primPath": "/IkeaGrono/Light/Light_to_control",
+     "translate": [
+      5.035370605542734,
+      4.959672314691507,
+      12.460039318384474
+     ],
+     "rotateXYZ": [
+      90.0,
+      0.0,
+      90.0
+     ],
+     "scale": [
+      0.7000000104308128,
+      1.600000023841858,
+      0.7000000104308128
+     ],
+     "lightType": "SphereLight",
+     "transform": ""
+    }
+   ],
+   "CCT": 2200,
+   "ies": "",
+   "useIES": true,
+   "intensity": 800.0,
+   "dimming": 0.5,
+   "color": [
+    0.5,
+    0.745,
+    1.0
+   ],
+   "useColorTemperature": true
+  },
+  {
+   "id": "fe9fac85-513a-43a8-b872-2d7b800142ec",
+   "name": "Hue Play",
+   "lights": [
+    {
+     "primPath": "/HuePlay/RectLight",
+     "translate": [
+      -2.18714295082419,
+      -5.500647038143165e-30,
+      13.348331228310071
+     ],
+     "rotateXYZ": [
+      90.0,
+      0.0,
+      90.0
+     ],
+     "scale": [
+      0.040269567251550814,
+      0.22027495535283959,
+      1.0000000000000007
+     ],
+     "lightType": "RectLight",
+     "transform": ""
+    }
+   ],
+   "CCT": 2200,
+   "ies": "",
+   "useIES": true,
+   "intensity": 20000,
+   "dimming": 1.0000000149011612,
+   "color": [
+    0.0,
+    0.1870213896036148,
+    0.7567567825317383
+   ],
+   "useColorTemperature": false
+  },
+  {
+   "id": "548c398b-bcb7-49be-8752-e19036fb1558",
+   "name": "CeilingLight",
+   "lights": [
+    {
+     "primPath": "/CeilingLight/DiskLight",
+     "translate": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "rotateXYZ": [
+      180.0,
+      180.0,
+      179.99999999999994
+     ],
+     "scale": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "lightType": "DiskLight",
+     "transform": ""
+    }
+   ],
+   "CCT": 3000,
+   "ies": "",
+   "useIES": true,
+   "intensity": 30000.0,
+   "dimming": 0.0,
+   "color": [
+    0.5,
+    0.745,
+    1.0
+   ],
+   "useColorTemperature": true
+  }
+ ],
+ "lightScenes": [
+  {
+   "name": "Night_warm",
+   "lightGroupIDs": [
+    "2fef2f12-e197-4148-b87d-df5272da90c6",
+    "bef6cd79-b9f3-4eda-b995-59c3e364bccf",
+    "fe9fac85-513a-43a8-b872-2d7b800142ec",
+    "548c398b-bcb7-49be-8752-e19036fb1558"
+   ],
+   "instancedJson": [
+    "{\"id\": \"2fef2f12-e197-4148-b87d-df5272da90c6\", \"name\": \"Ikea Lantern\", \"lights\": [{\"primPath\": \"/IkeaLamp/SphereLight_Outside\", \"translate\": [-1.723671312210634, -1.253228384936523, 15.874885682801935], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.6, 0.75, 0.6], \"lightType\": \"SphereLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 300, \"dimming\": 1.0000000149011612, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}",
+    "{\"id\": \"bef6cd79-b9f3-4eda-b995-59c3e364bccf\", \"name\": \"Ikea Grono\", \"lights\": [{\"primPath\": \"/IkeaGrono/Light/Light_to_control\", \"translate\": [5.035370605542734, 4.959672314691507, 12.460039318384474], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.7000000104308128, 1.600000023841858, 0.7000000104308128], \"lightType\": \"SphereLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 800.0, \"dimming\": 1.0000000149011612, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}",
+    "{\"id\": \"fe9fac85-513a-43a8-b872-2d7b800142ec\", \"name\": \"Hue Play\", \"lights\": [{\"primPath\": \"/HuePlay/RectLight\", \"translate\": [-2.18714295082419, -5.500647038143165e-30, 13.348331228310071], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.040269567251550814, 0.22027495535283959, 1.0000000000000007], \"lightType\": \"RectLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 5000.0, \"dimming\": 1.0000000149011612, \"color\": [0.0, 0.4645993113517761, 0.9481267929077148], \"useColorTemperature\": true}",
+    "{\"id\": \"548c398b-bcb7-49be-8752-e19036fb1558\", \"name\": \"CeilingLight\", \"lights\": [{\"primPath\": \"/CeilingLight/DiskLight\", \"translate\": [0.0, 0.0, 0.0], \"rotateXYZ\": [180.0, 180.0, 179.99999999999994], \"scale\": [1.0, 1.0, 1.0], \"lightType\": \"DiskLight\", \"transform\": \"\"}], \"CCT\": 3000, \"ies\": \"\", \"useIES\": true, \"intensity\": 30000.0, \"dimming\": 0.0, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}"
+   ],
+   "selectedPrimForVariant": "",
+   "selectedVariantSet": "",
+   "selectedVariant": "",
+   "daylight": {
+    "primPath": "",
+    "weatherType": "Not used",
+    "time": 23.500000350177288,
+    "month": 6,
+    "day": 21
+   },
+   "camera": {
+    "cct": 7000,
+    "iso": 500,
+    "shutter": 500
+   }
+  },
+  {
+   "name": "Night_warm_cool",
+   "lightGroupIDs": [
+    "2fef2f12-e197-4148-b87d-df5272da90c6",
+    "bef6cd79-b9f3-4eda-b995-59c3e364bccf",
+    "fe9fac85-513a-43a8-b872-2d7b800142ec",
+    "548c398b-bcb7-49be-8752-e19036fb1558"
+   ],
+   "instancedJson": [
+    "{\"id\": \"2fef2f12-e197-4148-b87d-df5272da90c6\", \"name\": \"Ikea Lantern\", \"lights\": [{\"primPath\": \"/IkeaLamp/SphereLight_Outside\", \"translate\": [-1.723671312210634, -1.253228384936523, 15.874885682801935], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.6, 0.75, 0.6], \"lightType\": \"SphereLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 200.0, \"dimming\": 0.5, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}",
+    "{\"id\": \"bef6cd79-b9f3-4eda-b995-59c3e364bccf\", \"name\": \"Ikea Grono\", \"lights\": [{\"primPath\": \"/IkeaGrono/Light/Light_to_control\", \"translate\": [5.035370605542734, 4.959672314691507, 12.460039318384474], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.7000000104308128, 1.600000023841858, 0.7000000104308128], \"lightType\": \"SphereLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 800.0, \"dimming\": 0.5, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}",
+    "{\"id\": \"fe9fac85-513a-43a8-b872-2d7b800142ec\", \"name\": \"Hue Play\", \"lights\": [{\"primPath\": \"/HuePlay/RectLight\", \"translate\": [-2.18714295082419, -5.500647038143165e-30, 13.348331228310071], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.040269567251550814, 0.22027495535283959, 1.0000000000000007], \"lightType\": \"RectLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 20000, \"dimming\": 1.0000000149011612, \"color\": [0.0, 0.1870213896036148, 0.7567567825317383], \"useColorTemperature\": false}",
+    "{\"id\": \"548c398b-bcb7-49be-8752-e19036fb1558\", \"name\": \"CeilingLight\", \"lights\": [{\"primPath\": \"/CeilingLight/DiskLight\", \"translate\": [0.0, 0.0, 0.0], \"rotateXYZ\": [180.0, 180.0, 179.99999999999994], \"scale\": [1.0, 1.0, 1.0], \"lightType\": \"DiskLight\", \"transform\": \"\"}], \"CCT\": 3000, \"ies\": \"\", \"useIES\": true, \"intensity\": 30000.0, \"dimming\": 0.0, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}"
+   ],
+   "selectedPrimForVariant": "",
+   "selectedVariantSet": "",
+   "selectedVariant": "",
+   "daylight": {
+    "primPath": "",
+    "weatherType": "Not used",
+    "time": 24.00000035762787,
+    "month": 6,
+    "day": 21
+   },
+   "camera": {
+    "cct": 5000,
+    "iso": 500,
+    "shutter": 500
+   }
+  },
+  {
+   "name": "Night_Just_frames",
+   "lightGroupIDs": [
+    "2fef2f12-e197-4148-b87d-df5272da90c6",
+    "bef6cd79-b9f3-4eda-b995-59c3e364bccf",
+    "fe9fac85-513a-43a8-b872-2d7b800142ec",
+    "548c398b-bcb7-49be-8752-e19036fb1558"
+   ],
+   "instancedJson": [
+    "{\"id\": \"2fef2f12-e197-4148-b87d-df5272da90c6\", \"name\": \"Ikea Lantern\", \"lights\": [{\"primPath\": \"/IkeaLamp/SphereLight_Outside\", \"translate\": [-1.723671312210634, -1.253228384936523, 15.874885682801935], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.6, 0.75, 0.6], \"lightType\": \"SphereLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 200.0, \"dimming\": 1.0000000149011612, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}",
+    "{\"id\": \"bef6cd79-b9f3-4eda-b995-59c3e364bccf\", \"name\": \"Ikea Grono\", \"lights\": [{\"primPath\": \"/IkeaGrono/Light/Light_to_control\", \"translate\": [5.035370605542734, 4.959672314691507, 12.460039318384474], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.7000000104308128, 1.600000023841858, 0.7000000104308128], \"lightType\": \"SphereLight\", \"transform\": \"\"}], \"CCT\": 2200, \"ies\": \"\", \"useIES\": true, \"intensity\": 800.0, \"dimming\": 1.0000000149011612, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}",
+    "{\"id\": \"fe9fac85-513a-43a8-b872-2d7b800142ec\", \"name\": \"Hue Play\", \"lights\": [{\"primPath\": \"/HuePlay/RectLight\", \"translate\": [-2.18714295082419, -5.500647038143165e-30, 13.348331228310071], \"rotateXYZ\": [90.0, 0.0, 90.0], \"scale\": [0.040269567251550814, 0.22027495535283959, 1.0000000000000007], \"lightType\": \"RectLight\", \"transform\": \"\"}], \"CCT\": 3500, \"ies\": \"\", \"useIES\": true, \"intensity\": 5000.0, \"dimming\": 0.0, \"color\": [0.0, 0.4645993113517761, 0.9481267929077148], \"useColorTemperature\": false}",
+    "{\"id\": \"548c398b-bcb7-49be-8752-e19036fb1558\", \"name\": \"CeilingLight\", \"lights\": [{\"primPath\": \"/CeilingLight/DiskLight\", \"translate\": [0.0, 0.0, 0.0], \"rotateXYZ\": [180.0, 180.0, 179.99999999999994], \"scale\": [1.0, 1.0, 1.0], \"lightType\": \"DiskLight\", \"transform\": \"\"}], \"CCT\": 3000, \"ies\": \"\", \"useIES\": true, \"intensity\": 30000.0, \"dimming\": 0.0, \"color\": [0.5, 0.745, 1.0], \"useColorTemperature\": true}"
+   ],
+   "selectedPrimForVariant": "",
+   "selectedVariantSet": "",
+   "selectedVariant": "",
+   "daylight": {
+    "primPath": "",
+    "weatherType": "Not used",
+    "time": 24.00000035762787,
+    "month": 6,
+    "day": 21
+   },
+   "camera": {
+    "cct": 5000,
+    "iso": 500,
+    "shutter": 500
+   }
+  }
+ ]
+}
